@@ -11,9 +11,50 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
+.App {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  width: 95%;
+  height: 100vh;
+  margin-left: 20px;
+  margin-top: -140px;
+}
 table,
 th,
 td {
   border: 1px solid black;
+}
+
+#txt {
+  color: orange;
+  margin-left: -1242px;
+  margin-top: -24px;
+  font-size: 50px;
+}
+
+#time_left {
+  margin-left: -1761px;
+}
+
+#class_schedule {
+  color: blue;
+  margin-left: -1601px;
+  margin-top: 42px;
+  font-size: 36px;
+}
+#img {
+  display: flex;
+  text-align: end;
+  justify-content: flex-end;
+  margin-top: -164px;
+}
+
+#image {
+  width: 50px;
+  margin-top: 7px;
+}
+#cnt {
+  margin-top: 18px;
 }

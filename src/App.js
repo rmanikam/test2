@@ -1,113 +1,116 @@
-import React, { useState } from "react";
-import { Table } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
 
 function App() {
+  var [date, setDate] = useState(new Date());
+  const btn = document.getElementById("button");
   const [count, setCount] = useState(0);
+  const [isDisabled, setDisabled] = useState(false);
 
-  // const getDate = () => {
-  //   return new Date();
-  // };
+  useEffect(() => {
+    var timer = setInterval(() => setDate(new Date()), 1000);
+    return function cleanup() {
+      clearInterval(timer);
+    };
+  });
 
-  function getDate(start, end) {
-    return new Date(
-      start.getTime() + Math.random() * (end.getTime() - start.getTime())
-    );
-  }
-
-  //console.log(getDate(new Date(2012, 0, 1), new Date()));
-
-  const getTime = () => {
-    return new Date();
+  var getCount = () => {
+    var maxNumber = 10;
+    var randomNumber = Math.floor(Math.random() * maxNumber + 1);
+    return randomNumber;
   };
 
-  const getCount = () => {
-    return 10;
-  };
-
-  const [arr, setArr] = useState([
+  const data = [
     {
       id: 1,
       sub: "Python",
-      date: getDate(),
-      time: getTime(),
       class_count: getCount(),
     },
-    {},
-    {},
-    {},
-    {},
-  ]);
+    {
+      id: 2,
+      sub: "Python",
+      class_count: getCount(),
+    },
+    {
+      id: 3,
+      sub: "Python",
+      class_count: getCount(),
+    },
+    {
+      id: 4,
+      sub: "Python",
+      class_count: getCount(),
+    },
+    {
+      id: 5,
+      sub: "Python",
+      class_count: getCount(),
+    },
+  ];
 
-  console.log("wolf", arr);
+  const [details, setDetails] = useState(data);
 
+  function ButtonClicked() {
+    const initialText = "Book Now";
+
+    localStorage.setItem("Data", data);
+
+    if (btn.textContent.includes(initialText)) {
+      btn.textContent = "Booked";
+    } else {
+      btn.textContent = initialText;
+    }
+    setCount(count + 1);
+    // setDetails(...data, (details.class_count = details.class_count - 1));
+    if (count === 3) {
+      alert("You have done maximum bookings for the week");
+      setDisabled(true);
+      setCount(0);
+    }
+  }
   return (
     <div className="App">
-      <div className="outerContainer">
-        <div className="header">
-          <h4>Time Left:</h4>
-          <h4> Claim your Free Trial Class</h4>
-
-          <div className="image">{/* <img src=""></img> */}</div>
-        </div>
-        <div>
-          <h3>Class Schedule</h3>
-
-          <table>
-            <tr>
-              <th>Subject</th>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Availability</th>
-              <th> </th>
-            </tr>
-            <tr>
-              <td>Python</td>
-              <td>{getDate()}</td>
-              <td>04:00 pm - 05:00 pm</td>
-              <td></td>
-              <td>
-                <button type="button">Book Now</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Python</td>
-              <td> {`${new Date().toLocaleString()}`}</td>
-              <td>04:00 pm - 05:00 pm</td>
-              <td></td>
-              <td>
-                <button type="button">Book Now</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Python</td>
-              <td> {`${new Date().toLocaleString()}`}</td>
-              <td>04:00 pm - 05:00 pm</td>
-              <td></td>
-              <td>
-                <button type="button">Book Now</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Python</td>
-              <td>{`${new Date().toLocaleString()}`}</td>
-              <td>04:00 pm - 05:00 pm</td>
-              <td></td>
-              <td>
-                <button type="button">Book Now</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Python</td>
-              <td>{`${new Date().toLocaleString()}`}</td>
-              <td>04:00 pm - 05:00 pm</td>
-              <td></td>
-              <td>
-                <button type="button">Book Now</button>
-              </td>
-            </tr>
-          </table>
-        </div>
+      <h4 id="time_left">Time Left:</h4>
+      <h4 id="txt"> Claim your Free Trial Class</h4>
+      <div id="img">
+        <img
+          src="https://cdn-icons-png.flaticon.com/128/1170/1170678.png"
+          id="image"
+        />
+        <span id="cnt"> Count is : {count}</span>
       </div>
+      <h3 id="class_schedule">Class Schedule</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Availability</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {details.map((detail, key) => (
+            <tr key={key}>
+              <td>{detail.sub}</td>
+              <td> {date.toLocaleDateString()}</td>
+              <td>{date.toLocaleTimeString()}</td>
+              <td>{detail.class_count}</td>
+              <td>
+                <button
+                  type="button"
+                  id="button"
+                  onClick={ButtonClicked}
+                  disabled={isDisabled}
+                >
+                  Book Now
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
